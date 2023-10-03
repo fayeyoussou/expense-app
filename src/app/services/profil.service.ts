@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
 import {AuthService} from "./auth.service";
 import {FormGroup} from "@angular/forms";
-import {map} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -11,19 +10,7 @@ export class ProfilService {
   private profil : any
   private progress : number = 0
   constructor(private firestore : AngularFirestore,private auth : AuthService) {
-    const userUid = auth.userData?.uid;
-    console.log(auth.userData)
-    if (userUid) {
-      const userDocRef = this.firestore.doc(`users/${userUid}`);
-      userDocRef.get().subscribe((userDocSnapshot) => {
-        //this.isProfilSet = userDocSnapshot.get('profil');
-        this.profil = userDocSnapshot.get('profil')
-
-        this.profil['imageUrl']=auth.userData.photoURL;
-      });
-    } else {
-      console.error('User UID not available.');
-    }
+    this.profil = auth.profil
   }
   get myProfil(): any {
     return this.profil;

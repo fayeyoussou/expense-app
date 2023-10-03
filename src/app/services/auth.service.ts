@@ -4,7 +4,8 @@ import {Router} from '@angular/router';
 import firebase from "firebase/compat/app";
 import { GoogleAuthProvider } from 'firebase/auth';
 import {AngularFirestore} from "@angular/fire/compat/firestore";
-import {map} from "rxjs";
+import {map, switchMap} from "rxjs";
+import {ProfilService} from "./profil.service";
 
 
 @Injectable({
@@ -14,10 +15,11 @@ export class AuthService {
   userData: firebase.User | undefined;
   isProfilSet = false// Save logged in user data
   public progress = 0;
+  private _profil
   constructor(
     public afAuth: AngularFireAuth, // Inject Firebase auth service
     public router: Router,
-    private firestore : AngularFirestore
+    private firestore : AngularFirestore,
   ) {
     this.afAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(r => {
 
@@ -32,42 +34,51 @@ export class AuthService {
 
 
   }
-  setProfilSet(){
-
+  get profil(){
+    return this._profil
+  }
+  setProfilSet() {
     const userUid = this.userData?.uid;
-    console.log(userUid)
+
     if (userUid) {
       const userDocRef = this.firestore.doc(`users/${userUid}`);
 
-      userDocRef.get().subscribe((userDocSnapshot) => {
-        //this.isProfilSet = userDocSnapshot.get('profil');
-        this.isProfilSet = userDocSnapshot.get('profil').isProfilSet;
-
-        if (this.isProfilSet) {
-          // Redirect to dashboard if isProfilSet is true
-          this.router.navigate(['/dashboard']);
-        } else {
-          // Redirect to welcome if isProfilSet is not true (or doesn't exist)
-          this.router.navigate(['/welcome']);
-        }
-      });
-      userDocRef.collection('goals').snapshotChanges().pipe(
+      // Subscribe to snapshot changes for the user document and subcollection
+      userDocRef.snapshotChanges().pipe(
+        switchMap((userDocSnapshot) => {
+          if (userDocSnapshot.payload.exists) {
+            const data = userDocSnapshot.payload.data() as any;
+            this._profil = data.profil;
+            this.isProfilSet = data.profil.isProfilSet
+            // Check isProfilSet here and navigate accordingly
+            if (data && data.profil && data.profil.isProfilSet) {
+              return this.router.navigate(['/dashboard']);
+            } else {
+              return this.router.navigate(['/welcome']);
+            }
+          } else {
+            // Handle the case where the document does not exist
+            console.log("Document does not exist.");
+            // You can choose to navigate to another route or handle it differently.
+            return [];
+          }
+        }),
+        switchMap(() => userDocRef.collection('goals').snapshotChanges()),
         map(actions => {
           return actions.map(action => {
             const data = action.payload.doc.data(); // Get the document data
             const id = action.payload.doc.id;
 
-            return {id: id, ...data } as any;
+            return { id: id, ...data } as any;
           });
         })
       ).subscribe(goals => {
-        goals.forEach(x=>{
-          console.log(x)
-          if(x.main && x.goal !=0){
-            this.progress = (x.fond_actuelle / x.goal)*100
-
+        goals.forEach(x => {
+          //console.log(x);
+          if (x.main && x.goal != 0) {
+            this.progress = (this._profil.fond_actuelle) * 100 / x.goal;
           }
-        })
+        });
         // 'goals' is an array containing all the documents in the 'goals' subcollection
       });
     } else {
@@ -81,7 +92,7 @@ export class AuthService {
       this.setProfilSet()
       return true; // Authentication succeed§ ed
     } catch (error) {
-      console.error(error);
+      console.error("Login error");
       return false; // Authentication failed
     }
   }

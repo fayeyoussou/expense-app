@@ -21,6 +21,7 @@ import {NzSelectModule} from "ng-zorro-antd/select";
 import {NzButtonModule} from "ng-zorro-antd/button";
 import {NzDatePickerModule} from "ng-zorro-antd/date-picker";
 import { NzProgressModule } from 'ng-zorro-antd/progress';
+import { NzModalModule } from 'ng-zorro-antd/modal';
 
 
 // AngularFire modules
@@ -37,6 +38,7 @@ import {QuestionnairesComponent} from "./pages/questionnaires/questionnaires.com
 import {NzInputNumberModule} from "ng-zorro-antd/input-number";
 import {NzSpaceModule} from "ng-zorro-antd/space";
 import {ProfilComponent} from "./pages/profil/profil.component";
+import {AddExpenseIncomeComponent} from "./add-expense-income/add-expense-income.component";
 
 registerLocaleData(en);
 
@@ -45,7 +47,8 @@ registerLocaleData(en);
     AppComponent,
     ExpenseFormComponent,
     QuestionnairesComponent,
-    ProfilComponent
+    ProfilComponent,
+    AddExpenseIncomeComponent
   ],
   imports: [
     BrowserModule,
@@ -60,6 +63,7 @@ registerLocaleData(en);
     NzMenuModule,
     NzIconModule,
     NzTabsModule,
+    NzModalModule,
     NzInputModule,
     NzInputNumberModule,
     NzSelectModule,

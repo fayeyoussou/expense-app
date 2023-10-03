@@ -1,5 +1,6 @@
 <nz-layout class="app-layout">
   <nz-progress class="progress-bar" *ngIf="isLoggedIn" [nzPercent]="progress" [nzStrokeWidth]="'25'"></nz-progress>
+  <span class="add-button" (click)="showaddFluctualModal()" nz-icon nzType="plus-circle" nzTheme="outline"></span>
   <nz-sider class="menu-sidebar"
             nzCollapsible
             nzWidth="256px"
