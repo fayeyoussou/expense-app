@@ -1,0 +1,52 @@
+<!-- questionnaire.component.html -->
+<div class="questionnaire-content">
+<nz-tabset
+  [(nzSelectedIndex)]="currentQuestionIndex"
+  (nzSelectChange)="handleTabChange()"
+  nzTabPosition="bottom"
+  style="height: 100%"
+>
+  <nz-tab *ngFor="let question of questions; let i = index" [nzTitle]="'Question ' + (i + 1)">
+    <!-- Question content based on question type -->
+    <nz-form [formGroup]="form[i]" (keydown.enter)="handleEnterKey()">
+      <nz-form-item>
+        <nz-form-control>
+          <p class="tab-question">{{ question.question }}</p>
+          <ng-container [ngSwitch]="question.type" class="input-container">
+            <input nz-input [formControlName]="question.id" *ngSwitchCase="'text'" class="tabs-input"/>
+            <input type="number" nz-input [formControlName]="question.id" *ngSwitchCase="'number'" class="tabs-input"/>
+
+              <nz-input-number-group *ngSwitchCase="'number-currency'" class="tabs-input" nzCompact >
+                <nz-input-number [nzStep]="5" [formControlName]="question.id" class="currency"></nz-input-number>
+                <nz-select formControlName="multiplier" class="currency-multiplier"  >
+                  <nz-option [nzValue]="1" nzLabel="x 1"></nz-option>
+                  <nz-option [nzValue]="1000" nzLabel="x 1000"></nz-option>
+                  <nz-option [nzValue]="1000000" nzLabel="x Millions"></nz-option>
+                </nz-select>
+              </nz-input-number-group>
+
+            <nz-date-picker nzFormat="yyyy-MM-dd" [formControlName]="question.id" *ngSwitchCase="'date'" class="tabs-input"></nz-date-picker>
+            <nz-select [formControlName]="question.id" *ngSwitchCase="'dropdown'" class="tabs-input">
+              <nz-option *ngFor="let value of question.values" [nzValue]="value" [nzLabel]="value"></nz-option>
+            </nz-select>
+            <div *ngSwitchCase="'summary'">
+              <div class="summary-section">
+                <div class="summary-card" *ngFor="let question of getQuestions(); let i = index" [ngSwitch]="question.type" >
+                  <div class="summary-question" *ngIf="question.type !== 'summary'">{{ question.question }}</div>
+                  <div class="summary-answer" *ngIf="form[i].get(question.id).value !=null">{{question.type == 'number-currency'?form[i].get(question.id)?.value*form[i].get('multiplier')?.value: form[i].get(question.id)?.value }}</div>
+                  <div class="summary-error" *ngIf="form[i].get(question.id)?.invalid" >{{question.validationMessage}}</div>
+                </div>
+
+              </div>
+              <button class="validation-button" *ngIf="isFormValid" (click)="submitForm()" nz-button nzType="primary" [nzSize]="'large'">
+                <span nz-icon nzType="check"></span>
+                Valider
+              </button>
+            </div>
+          </ng-container>
+        </nz-form-control>
+      </nz-form-item>
+    </nz-form>
+  </nz-tab>
+</nz-tabset>
+</div>

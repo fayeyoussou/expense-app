@@ -1,0 +1,17 @@
+export const IncomeCategories = [
+  { name: 'Salaire', icon: 'dollar' },
+  { name: 'Travail indépendant', icon: 'bank' },
+  { name: 'Entreprise', icon: 'shop' },
+  { name: 'Investissements', icon: 'stock' },
+  { name: 'Loyer', icon: 'home' },
+  { name: 'Intérêts', icon: 'percentage' },
+  { name: 'Dividendes', icon: 'file-protect' },
+  { name: 'Cadeaux', icon: 'gift' },
+  { name: 'Économies', icon: 'wallet' },
+  { name: 'Bonus', icon: 'star' },
+  { name: 'Pension alimentaire', icon: 'user-add' },
+  { name: 'Revenus de location', icon: 'building' },
+  { name: 'Vente d\'actifs', icon: 'rocket' },
+  { name: 'Ventes en ligne', icon: 'shopping-cart' },
+  { name: 'Autre', icon: 'question-circle' },
+];

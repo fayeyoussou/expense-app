@@ -1,0 +1,59 @@
+/* questionnaire.component.less */
+
+/* Style the summary section with a maximum height of 80% of the viewport height and scrollable content */
+.summary-section {
+  max-height: 60vh; /* 80% of the viewport height */
+  overflow-y: auto; /* Enable vertical scrolling if content overflows */
+  position: relative; /* Enable positioning for child elements */
+}
+.questionnaire-content {
+  height: 100%;
+}
+.tab-question {
+  font-family: 'Young Serif', serif;
+  font-size: 24px;
+  text-align: center;
+}
+.tabs-input {
+  margin-left: 10%;
+  margin-right:10%;
+  margin-top: 15%;
+  width: 80%;
+  height: 20%;
+}
+.currency-multiplier {
+  display: inline-block;
+  width: 40%;
+}
+.currency {
+  display: inline-block;
+  width: 60%;
+}
+  /* Style each summary card within the summary section */
+.summary-card {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin: 10px;
+  background-color: #f5f5f5;
+
+  .summary-question {
+    font-weight: bold;
+  }
+
+  .summary-answer {
+    font-style: italic;
+  }
+  .summary-error {
+    font-style: italic;
+    color:red;
+  }
+}
+
+/* Style the validation button to float on the bottom right */
+.validation-button {
+  position: absolute;
+  bottom: 10px; /* Adjust the desired distance from the bottom */
+  right: 10px; /* Adjust the desired distance from the right */
+
+}
+
