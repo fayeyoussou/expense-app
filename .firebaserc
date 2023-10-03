@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "expense-app-1341c"
+  },
+  "targets": {
+    "expense-app-1341c": {
+      "hosting": {
+        "expense-app": [
+          "expense-app-1341c"
+        ]
+      }
+    }
   }
 }
