@@ -1,1 +1,17 @@
-{{userProfil}}
+<nz-form [formGroup]="form" *ngIf="loaded">
+  <nz-form-item>
+    <nz-form-control class="currency-form">
+      <nz-form-label>Fond Actuelle</nz-form-label>
+      <nz-input-number-group  class="tabs-input" nzCompact >
+        <nz-input-number [nzStep]="5" formControlName="fond_actuelle" class="currency" [nzStatus]="form.get('fond_actuelle').errors ? 'error' : '' " (keydown.enter)="handleEnterKey()"></nz-input-number>
+        <nz-select formControlName="multiplier" class="currency-multiplier" >
+          <nz-option [nzValue]="1" nzLabel="x 1"></nz-option>
+          <nz-option [nzValue]="1000" nzLabel="x 1000"></nz-option>
+          <nz-option [nzValue]="1000000" nzLabel="x Millions"></nz-option>
+        </nz-select>
+      </nz-input-number-group>
+      <p class="error-text" *ngIf="form.get('fond_actuelle').hasError('required')" >Champs requis</p>
+      <p class="error-text" *ngIf="form.get('fond_actuelle').hasError('min')" >La somme doit être supérieur a 5</p>
+    </nz-form-control>
+  </nz-form-item>
+</nz-form>

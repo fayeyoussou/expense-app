@@ -8,13 +8,15 @@ import {ProfilService} from "../../services/profil.service";
   templateUrl: './questionnaires.component.html',
   styleUrls: ['./questionnaires.component.less'],
   animations: [
-    trigger('slideInOut', [
+    trigger('fadeIn', [
       transition(':enter', [
-        style({ transform: 'translateX(100%)' }),
-        animate('500ms ease-in', style({ transform: 'translateX(0%)' })),
+        style({ opacity: 0 }),
+        animate('500ms ease-in', style({ opacity: 1 })),
       ]),
+    ]),
+    trigger('fadeOut', [
       transition(':leave', [
-        animate('500ms ease-in', style({ transform: 'translateX(-100%)' })),
+        animate('500ms ease-in', style({ opacity: 0 })),
       ]),
     ]),
   ],

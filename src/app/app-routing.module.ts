@@ -4,14 +4,15 @@ import {WelcomeComponent} from "./pages/welcome/welcome.component";
 import {DashboardComponent} from "./pages/dashboard/dashboard.component";
 import {QuestionnairesComponent} from "./pages/questionnaires/questionnaires.component";
 import {ProfilComponent} from "./pages/profil/profil.component";
+import {TransactionsComponent} from "./pages/transactions/transactions.component";
 
 const routes: Routes = [
-  { path: '', pathMatch: 'full', component : DashboardComponent },
+  {path : '',component : WelcomeComponent},
+  { path: 'dashboard', pathMatch: 'full', component : DashboardComponent },
   { path : 'welcome', component : QuestionnairesComponent},
-  { path : 'dashboard', component : DashboardComponent},
-  { path : 'profil',component : ProfilComponent}
+  { path : 'profil',component : ProfilComponent},
+  { path : 'transactions',component:TransactionsComponent},
 
-  // { path: 'welcome', loadChildren: () => import('./pages/welcome/welcome.module').then(m => m.WelcomeModule) }
 ];
 
 @NgModule({

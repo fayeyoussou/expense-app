@@ -1,1 +1,41 @@
-<p>add-expense-income works!</p>
+<nz-form [formGroup]="form" >
+  <nz-form-item>
+    <nz-form-control>
+      <nz-form-label>type de transaction</nz-form-label>
+      <nz-select formControlName="type"  class="tabs-input" [nzStatus]="form.get('type').errors ? 'error' : '' ">
+        <nz-option *ngFor="let value of types" [nzValue]="value" [nzLabel]="value"></nz-option>
+      </nz-select>
+      <p class="error-text" *ngIf="form.get('type').errors" >Champs requis</p>
+    </nz-form-control>
+    <nz-form-control>
+      <nz-form-label>Categorie</nz-form-label>
+      <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Choisir une catégorie"  formControlName="category" [nzStatus]="form.get('category').errors ? 'error' : '' ">
+        <nz-option nzCustomContent *ngFor="let category of categories" [nzValue]="category.id" [nzLabel]="category.name">
+          <i nz-icon [nzType]="category.icon"></i>
+          {{category.name}}
+        </nz-option>
+      </nz-select>
+      <p class="error-text" *ngIf="form.get('category').errors" >Champs requis</p>
+    </nz-form-control>
+    <nz-form-control>
+      <nz-form-label>Somme</nz-form-label>
+      <nz-input-number-group  class="tabs-input" nzCompact >
+        <nz-input-number [nzStep]="5" formControlName="amount" class="currency"></nz-input-number>
+        <nz-select formControlName="multiplier" class="currency-multiplier" [nzStatus]="form.get('multiplier').errors ? 'error' : '' ">
+          <nz-option [nzValue]="1" nzLabel="x 1"></nz-option>
+          <nz-option [nzValue]="1000" nzLabel="x 1000"></nz-option>
+          <nz-option [nzValue]="1000000" nzLabel="x Millions"></nz-option>
+        </nz-select>
+      </nz-input-number-group>
+      <p class="error-text" *ngIf="form.get('amount').hasError('required')" >Champs requis</p>
+      <p class="error-text" *ngIf="form.get('amount').hasError('min')" >La somme doit être supérieur a 5</p>
+    </nz-form-control>
+    <nz-form-control style="display: block;width: 100%" >
+      <nz-form-label>Description</nz-form-label>
+      <nz-textarea-count [nzMaxCharacterCount]="100" >
+        <textarea rows="4" formControlName="description" nz-input [nzStatus]="form.get('description').errors ? 'error' : '' "></textarea>
+      </nz-textarea-count>
+      <p class="error-text" *ngIf="form.get('description').errors" >Champs requis</p>
+    </nz-form-control>
+  </nz-form-item>
+</nz-form>

@@ -1,6 +1,8 @@
-<nz-layout class="app-layout">
-  <nz-progress class="progress-bar" *ngIf="isLoggedIn" [nzPercent]="progress" [nzStrokeWidth]="'25'"></nz-progress>
-  <span class="add-button" (click)="showaddFluctualModal()" nz-icon nzType="plus-circle" nzTheme="outline"></span>
+<nz-layout class="app-layout" *ngIf="auth.loaded" [@slide]>
+  <nz-progress  [nzFormat]="newFormat" class="progress-bar" *ngIf="isLoggedIn && isProfilSet" [nzStrokeColor]="{ '0%': 'dodgerblue', '40%': 'cyan', '100%': 'gold' }" [nzPercent]="progress" [nzStrokeWidth]="'25'"></nz-progress>
+
+
+  <span *ngIf="isLoggedIn && isProfilSet" (click)="showaddFluctualModal()" class="add-button" nz-icon nzType="swap" nzTheme="outline"></span>
   <nz-sider class="menu-sidebar"
             nzCollapsible
             nzWidth="256px"
@@ -8,16 +10,23 @@
             [(nzCollapsed)]="isCollapsed"
             [nzTrigger]="null">
     <div class="sidebar-logo">
-      <a href="https://ng.ant.design/" target="_blank">
+      <a routerLink="" >
         <img src="assets/logo.svg" alt="logo">
         <h1>Gestion Argent</h1>
       </a>
     </div>
     <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-      <li nz-submenu nzOpen nzTitle="Form" nzIcon="form">
+      <li nz-submenu nzOpen nzTitle="Fond" nzIcon="fund" *ngIf="isLoggedIn">
         <ul>
           <li nz-menu-item nzMatchRouter>
-            <a>Basic Form</a>
+            <a routerLink="/transactions">
+              <span nz-icon nzType="swap" nzTheme="outline"></span> Transactions
+            </a>
+          </li>
+          <li nz-menu-item nzMatchRouter >
+            <a routerLink="/dashboard">
+              <span nz-icon nzType="bar-chart" nzTheme="outline"></span> Dashboard
+            </a>
           </li>
         </ul>
       </li>
@@ -56,4 +65,7 @@
       </div>
     </nz-content>
   </nz-layout>
-</nz-layout>
+</nz-layout >
+<div class="loading-container" *ngIf="!auth.loaded" [@slideLeft]>
+  <span nz-icon nzType="loading" nzTheme="outline" style="font-size: 90px; color: blue;"></span>
+</div>

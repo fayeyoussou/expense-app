@@ -1,0 +1,46 @@
+<nz-table
+  nzShowSizeChanger
+  [nzData]="transService.transactions"
+  [nzFrontPagination]="false"
+  [nzLoading]="transService.loadedTransaction"
+  [nzTotal]="total"
+  [nzPageSize]="pageSize"
+  [nzPageIndex]="pageIndex"
+  (nzQueryParams)="onQueryParamsChange($event)"
+>
+  <thead>
+  <tr>
+    <th scope="col" nzColumnKey="type" [nzSortFn]="true">Type</th>
+    <th scope="col" nzColumnKey="idCategory" [nzSortFn]="true">Categorie</th>
+    <th scope="col" nzColumnKey="dateTransaction" [nzSortFn]="true"> date</th>
+    <th scope="col" nzColumnKey="amount" [nzSortFn]="true">Somme</th>
+    <th scope="col" nzColumnKey="description">Description</th>
+    <th scope="col" nzColumnKey="action">Action</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let data of transactionsList">
+    <td>{{ data.type }}</td>
+    <td>{{data.dateTransaction | date:'dd MMM yy HH:mm' }}</td>
+    <td><span nz-icon style="margin-right: 8%;color: gold" [nzType]="getCategory(data.idCategory)?.icon"></span>{{ getCategory(data.idCategory)?.name }}</td>
+    <td>{{ data.amount }}</td>
+    <td>{{ data.description }}</td>
+    <td style="width: 120px">
+      <button nz-button nzType="primary" style="color:darkblue;" (click)="editTransaction(data)" nzShape="circle"><span nz-icon nzType="edit"></span></button>
+      <button
+        nz-button
+        nzType="primary"
+        style="margin-left: 8%;color: red"
+        nz-popconfirm
+        nzPopconfirmTitle="Es-tu sure de vouloir supprimer ce transaction ? Cette action est irreversible"
+        nzPopconfirmPlacement="bottom"
+        (nzOnConfirm)="deleteTransaction(data)"
+        (nzOnCancel)="cancelTransaction()"
+        nzShape="circle">
+        <span nz-icon nzType="delete"></span>
+      </button>
+
+    </td>
+  </tr>
+  </tbody>
+</nz-table>

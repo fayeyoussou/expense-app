@@ -4,23 +4,51 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+body {
+  position: relative; // Ensure the body covers the full page height
+}
+
+
+@scrollThreshold: 10vh;
 
 .app-layout {
   height: 100vh;
 }
 .progress-bar {
   position: fixed;
-  top: 1%;
-  left: 22%;
-  width: 70%;
+  top: 2%;
+  left: 25%;
+  width: 50%;
   z-index: 9999;
+  @media (max-height: @scrollThreshold) {
+    display: none; // Hide the progress bar when the scroll position reaches the threshold
+  }
+}
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 223, 0, 0.7); //* Optional: Add a semi-transparent background overlay */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .add-button {
   position: fixed;
-  bottom: 10%;
-  right: 10%;
-  font-size: 50px;
-  color: gold;
+  bottom: 5%;
+  right: 3%;
+  color: deepskyblue;
+  font-size: 40px;
+  z-index: 9999;
+  cursor: pointer; /* Add a pointer cursor to indicate it's clickable */
+  transition: color 0.6s; /* Smooth color transition */
+
+  &:hover {
+    color: gold;
+  }
 }
 .menu-sidebar {
   position: relative;
@@ -89,5 +117,5 @@ nz-content {
 .inner-content {
   padding: 24px;
   background: #fff;
-  height: 100%;
+  height: auto;
 }
